@@ -6,6 +6,11 @@ const clearButton = document.querySelector("#clear-selection");
 
 const MAX_SELECTED = 6;
 const COMPONENT_KEYS = ["landing", "review", "attach"];
+const COMPONENT_LABELS = {
+  landing: "landing",
+  review: "review",
+  attach: "attached issues",
+};
 const selected = [];
 
 let dataset = null;
@@ -36,10 +41,11 @@ function formatScore(value) {
 
 function componentBar(key, value, weight) {
   const share = weight > 0 ? Math.max(0, Math.min(1, value / weight)) : 0;
+  const label = COMPONENT_LABELS[key] ?? key;
   return `
     <div class="component">
       <div class="component-meta">
-        <span class="component-label">${key}</span>
+        <span class="component-label">${label}</span>
         <span class="component-value">${formatScore(value)} / ${formatScore(weight)}</span>
       </div>
       <div class="bar-track">
