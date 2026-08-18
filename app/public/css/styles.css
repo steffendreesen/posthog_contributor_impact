@@ -65,7 +65,9 @@ h2 {
 }
 
 .layout {
-  display: flex;
+  display: grid;
+  grid-template-columns: 60fr 40fr;
+  gap: 24px;
   flex: 1 1 auto;
   min-height: 0;
 }
@@ -73,9 +75,13 @@ h2 {
 .panel {
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto;
   min-height: 0;
   min-width: 0;
+}
+
+.panel-profiles {
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
 }
 
 .panel-head {
@@ -114,12 +120,17 @@ h2 {
   fill: none;
   stroke: transparent;
   stroke-width: 10;
-  cursor: default;
+  cursor: pointer;
 }
 
 .series.is-hovered {
   stroke-opacity: 0.45;
   stroke-width: 1.25;
+}
+
+.series.is-selected {
+  stroke-opacity: 1;
+  stroke-width: 1.5;
 }
 
 .axis text {
@@ -140,6 +151,122 @@ h2 {
   fill: var(--muted);
   font-size: 11px;
   font-style: italic;
+}
+
+.profiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-content: start;
+  gap: 16px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.profile {
+  padding-top: 8px;
+  border-top: 1px solid var(--ink);
+}
+
+.profile-name {
+  margin: 0 0 6px;
+  font-size: 0.9rem;
+  overflow-wrap: anywhere;
+}
+
+.headline {
+  margin: 0 0 10px;
+}
+
+.headline-value {
+  display: block;
+  font-size: 1.35rem;
+  line-height: 1.15;
+}
+
+.headline-interval {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.headline-caption {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-style: italic;
+}
+
+.metric {
+  margin: 0 0 10px;
+}
+
+.metric-value {
+  display: block;
+  font-size: 1.15rem;
+  line-height: 1.1;
+}
+
+.metric-label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-style: italic;
+}
+
+.components {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.component-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.72rem;
+}
+
+.component-label {
+  text-transform: capitalize;
+}
+
+.component-value {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.bar-track {
+  height: 6px;
+  background: var(--hairline);
+}
+
+.bar-fill {
+  height: 100%;
+  background: var(--ink);
+}
+
+.clear {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.clear:hover {
+  color: var(--ink);
 }
 
 .tooltip {

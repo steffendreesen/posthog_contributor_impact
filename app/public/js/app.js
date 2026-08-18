@@ -1,8 +1,88 @@
 const chartEl = document.querySelector("#chart");
 const tooltipEl = document.querySelector("#tooltip");
 const metaEl = document.querySelector("#dataset-meta");
+const profilesEl = document.querySelector("#profiles");
+const clearButton = document.querySelector("#clear-selection");
+
+const MAX_SELECTED = 6;
+const COMPONENT_KEYS = ["landing", "review", "attach"];
+const selected = [];
 
 let dataset = null;
+
+function toggleSelection(login) {
+  const index = selected.indexOf(login);
+  if (index >= 0) {
+    selected.splice(index, 1);
+  } else {
+    selected.unshift(login);
+    if (selected.length > MAX_SELECTED) {
+      selected.pop();
+    }
+  }
+  renderProfiles();
+  syncSeriesState();
+}
+
+function syncSeriesState() {
+  d3.select(chartEl)
+    .selectAll(".series")
+    .classed("is-selected", (d) => selected.includes(d.login));
+}
+
+function formatScore(value) {
+  return value == null ? "—" : Number(value).toFixed(2);
+}
+
+function componentBar(key, value, weight) {
+  const share = weight > 0 ? Math.max(0, Math.min(1, value / weight)) : 0;
+  return `
+    <div class="component">
+      <div class="component-meta">
+        <span class="component-label">${key}</span>
+        <span class="component-value">${formatScore(value)} / ${formatScore(weight)}</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${(share * 100).toFixed(1)}%"></div>
+      </div>
+    </div>`;
+}
+
+function renderProfiles() {
+  if (selected.length === 0) {
+    profilesEl.innerHTML = '<p class="empty">No engineer selected.</p>';
+    clearButton.hidden = true;
+    return;
+  }
+
+  clearButton.hidden = false;
+  const weights = dataset.weights ?? {};
+  const intervalCaption = dataset.interval ?? "90% central credible interval";
+
+  profilesEl.innerHTML = selected
+    .map((login) => {
+      const engineer = dataset.engineers.find((e) => e.login === login);
+      const components = engineer.components ?? {};
+      const bars = COMPONENT_KEYS.map((key) =>
+        componentBar(key, components[key] ?? 0, weights[key] ?? 0),
+      ).join("");
+      return `
+        <article class="profile">
+          <h3 class="profile-name">${engineer.login}</h3>
+          <p class="headline">
+            <span class="headline-value">${formatScore(engineer.theta_mean)}</span>
+            <span class="headline-interval">${formatScore(engineer.theta_ci_5)}–${formatScore(engineer.theta_ci_95)}</span>
+            <span class="headline-caption">${intervalCaption}</span>
+          </p>
+          <p class="metric">
+            <span class="metric-value">${engineer.total_commits.toLocaleString()}</span>
+            <span class="metric-label">commits</span>
+          </p>
+          <div class="components">${bars}</div>
+        </article>`;
+    })
+    .join("");
+}
 
 function placeTooltip(event) {
   const bounds = chartEl.getBoundingClientRect();
@@ -111,7 +191,8 @@ function drawChart() {
     .on("pointerleave", (_, d) => {
       setHover(d.login, false);
       hideTooltip();
-    });
+    })
+    .on("click", (_, d) => toggleSelection(d.login));
 
   if (dataset.mu) {
     svg
@@ -120,8 +201,11 @@ function drawChart() {
       .attr("d", line(dataset.mu))
       .on("pointerenter", (event) => showTooltip(event, "population mean μ"))
       .on("pointermove", (event) => showTooltip(event, "population mean μ"))
-      .on("pointerleave", hideTooltip);
+      .on("pointerleave", hideTooltip)
+      .on("click", (event) => event.stopPropagation());
   }
+
+  syncSeriesState();
 }
 
 async function main() {
@@ -136,6 +220,7 @@ async function main() {
     const end = dataset.dates[dataset.dates.length - 1];
     metaEl.textContent = `${dataset.repository} · ${dataset.engineers.length} engineers · ${dataset.window_days} days (${start} – ${end})`;
 
+    renderProfiles();
     drawChart();
     new ResizeObserver(() => drawChart()).observe(chartEl);
   } catch (error) {
@@ -143,5 +228,11 @@ async function main() {
     metaEl.textContent = error.message;
   }
 }
+
+clearButton.addEventListener("click", () => {
+  selected.length = 0;
+  renderProfiles();
+  syncSeriesState();
+});
 
 main();

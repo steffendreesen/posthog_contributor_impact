@@ -17,10 +17,20 @@
       <section class="panel panel-chart">
         <div class="panel-head">
           <h2>Expected commit impact</h2>
-          <p class="meta">Posterior mean of θ<sub>j</sub>, expanding window</p>
+          <p class="meta">Posterior mean of θ<sub>j</sub> · click a line to inspect</p>
         </div>
         <div id="chart" class="chart" aria-label="Posterior mean commit impact over time">
           <div id="tooltip" class="tooltip" hidden></div>
+        </div>
+      </section>
+
+      <section class="panel panel-profiles">
+        <div class="panel-head">
+          <h2>Selected engineers</h2>
+          <button id="clear-selection" type="button" class="clear" hidden>Clear</button>
+        </div>
+        <div id="profiles" class="profiles">
+          <p class="empty">No engineer selected.</p>
         </div>
       </section>
     </main>
