@@ -1,0 +1,24 @@
+[project]
+name = "posthog-contributor-impact-notebooks"
+version = "0.1.0"
+description = "EDA notebooks for PostHog GitHub contributor-impact analysis."
+requires-python = ">=3.12"
+dependencies = [
+    "github-etl",
+    "impact-model",
+    "ipykernel>=6.29.5",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.10.0",
+    "numpy>=2.2.0",
+    "pandas>=2.2.3",
+    "pandera>=0.22.1",
+    "pyarrow>=17.0.0",
+    "seaborn>=0.13.2",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+github-etl = { path = "../github_etl", editable = true }
+impact-model = { path = "../model", editable = true }
