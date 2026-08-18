@@ -18,9 +18,12 @@ from impact_model.panel import (
     groups_for_day,
 )
 from impact_model.scoring import (
+    COMPONENT_MEAN_COLUMNS,
+    DISPLAY_COMPONENT_WEIGHTS,
     K_ISSUE,
     K_PR,
     LANDING_LADDER,
+    LAST_DAY_ENGINEER_COLUMNS,
     SCORE_COLUMNS,
     SCORED_COLUMNS,
     WEIGHT_ATTACH,
@@ -28,7 +31,11 @@ from impact_model.scoring import (
     WEIGHT_COMPLEXITY,
     WEIGHT_LANDING,
     WEIGHT_REVIEW,
+    ContributorComponentSchema,
+    LastDayEngineerSchema,
     ScoredCommitSchema,
+    contributor_component_means,
+    last_day_engineer_snapshot,
     score_commits,
 )
 from impact_model.storage import (
@@ -43,12 +50,17 @@ from impact_model.storage import (
 )
 
 __all__ = [
+    "COMPONENT_MEAN_COLUMNS",
+    "ContributorComponentSchema",
+    "DISPLAY_COMPONENT_WEIGHTS",
     "DailyContributorPanelSchema",
     "DailyThetaSchema",
     "GibbsFit",
     "K_ISSUE",
     "K_PR",
     "LANDING_LADDER",
+    "LAST_DAY_ENGINEER_COLUMNS",
+    "LastDayEngineerSchema",
     "PANEL_COLUMNS",
     "SCORED_COLUMNS",
     "SCORE_COLUMNS",
@@ -58,9 +70,11 @@ __all__ = [
     "WEIGHT_COMPLEXITY",
     "WEIGHT_LANDING",
     "WEIGHT_REVIEW",
+    "contributor_component_means",
     "daily_contributor_panel",
     "fit_day",
     "groups_for_day",
+    "last_day_engineer_snapshot",
     "posterior_by_day",
     "posterior_mean_by_day",
     "read_daily_panel",

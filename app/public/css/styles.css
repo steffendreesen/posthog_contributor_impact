@@ -1,0 +1,161 @@
+:root {
+  --ink: #000;
+  --muted: #6b6b6b;
+  --line: #d8d8d8;
+  --hairline: #ececec;
+  --series: #111;
+  --series-alpha: 0.1;
+  --mu: #c44e52;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 28px 22px;
+  overflow: hidden;
+  background: #fff;
+  color: var(--ink);
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+    "Times New Roman", serif;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+
+h2 {
+  font-size: 1rem;
+}
+
+.meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.page-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex: 0 0 auto;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.layout {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  min-width: 0;
+}
+
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex: 0 0 auto;
+  margin-bottom: 8px;
+}
+
+.chart {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.chart svg {
+  display: block;
+}
+
+.series {
+  fill: none;
+  stroke: var(--series);
+  stroke-opacity: var(--series-alpha);
+  stroke-width: 1;
+}
+
+.series-mu {
+  fill: none;
+  stroke: var(--mu);
+  stroke-width: 1.75;
+}
+
+.series-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 10;
+  cursor: default;
+}
+
+.series.is-hovered {
+  stroke-opacity: 0.45;
+  stroke-width: 1.25;
+}
+
+.axis text {
+  fill: var(--muted);
+  font-family: inherit;
+  font-size: 11px;
+}
+
+.axis .domain {
+  stroke: var(--line);
+}
+
+.axis line {
+  stroke: var(--hairline);
+}
+
+.axis-title {
+  fill: var(--muted);
+  font-size: 11px;
+  font-style: italic;
+}
+
+.tooltip {
+  position: absolute;
+  z-index: 1;
+  padding: 3px 7px;
+  border: 1px solid var(--ink);
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.2;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.error {
+  color: #b00020;
+  font-style: normal;
+}

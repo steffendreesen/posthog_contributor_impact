@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PostHog contributor impact</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  </head>
+  <body>
+    <header class="page-header">
+      <h1>Most impactful engineers</h1>
+      <p id="dataset-meta" class="meta">Loading dataset…</p>
+    </header>
+
+    <main class="layout">
+      <section class="panel panel-chart">
+        <div class="panel-head">
+          <h2>Expected commit impact</h2>
+          <p class="meta">Posterior mean of θ<sub>j</sub>, expanding window</p>
+        </div>
+        <div id="chart" class="chart" aria-label="Posterior mean commit impact over time">
+          <div id="tooltip" class="tooltip" hidden></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/js/app.js"></script>
+  </body>
+</html>
